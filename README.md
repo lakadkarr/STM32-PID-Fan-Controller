@@ -35,8 +35,7 @@ Closed-loop thermal management system built on the **STM32F407G-DISC1** Discover
 - [Overview](#overview)
 - [Hardware](#hardware)
 - [Pin Assignment](#pin-assignment)
-- [Complete System Schematic](#complete-system-schematic)
-- [Wiring Diagram](#wiring-diagram)
+- [Complete System Schematic/Wiring diagram](#complete-system-schematic)
 - [Peripheral Configuration](#peripheral-configuration)
 - [Control Logic](#control-logic)
 - [PID Control Algorithm](#pid-control-algorithm)
@@ -121,16 +120,8 @@ The diagram below consolidates every subsystem — the STM32F407G-DISC1 (U1), th
 
 **LED & fan stages:** PD12/13/14 each drive one LED through its own 330 Ω resistor (R2/R3/R4) to ground. The flyback diode D1 (SS14) sits across FAN1, clamping the inductive spike when Q1 (AO3400A N-channel MOSFET) switches off.
 
-<p align="center">
-  <img src="images/system-operation.jpg" width="320" alt="Assembled prototype during operation"/><br/>
-  <em>Figure 5 — Assembled prototype during operation: breadboard wiring, LED indicators, and cooling fan</em>
-</p>
 
-## Wiring Diagram
 
-![Wiring diagram](images/schematic.png)
-
-*(see [Complete System Schematic](#complete-system-schematic) above for the full breakdown by subsystem)*
 
 ## Peripheral Configuration
 
