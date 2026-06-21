@@ -26,11 +26,7 @@ Closed-loop thermal management system built on the **STM32F407G-DISC1** Discover
 > M.Sc. Embedded Systems, TU Chemnitz — May 2026
 > Author: Rushikesh Lakadkar
 
-<p align="center">
-  <img src="images/board.jpg" width="420" alt="STM32F407G-DISC1 Discovery Board with active connections"/>
-  &nbsp;&nbsp;
-  <img src="images/system-operation.jpg" width="220" alt="Assembled prototype during operation"/>
-</p>
+
 
 ---
 
