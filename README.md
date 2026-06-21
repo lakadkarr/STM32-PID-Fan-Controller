@@ -7,9 +7,7 @@
 ![Status](https://img.shields.io/badge/Status-In%20Progress-yellow?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Academic-orange?style=for-the-badge)
 
-## 🛠️ Technical Skills
-
-<div align="center">
+### 🛠️ Technical Skills
 
 ![Microcontroller](https://img.shields.io/badge/Microcontroller-STM32F407VGT6%20%7C%20Cortex--M4-black?style=for-the-badge)
 ![Embedded C](https://img.shields.io/badge/Embedded%20C-C%2FC%2B%2B-blue?style=for-the-badge)
@@ -19,9 +17,7 @@
 ![Control Systems](https://img.shields.io/badge/Control%20Systems-PID%20%7C%20PWM-red?style=for-the-badge)
 ![Debugging](https://img.shields.io/badge/Debugging-SWV%20ITM%20%7C%20Oscilloscope-yellow?style=for-the-badge)
 
-</div>
-
-> **Closed-loop thermal management using analog temperature sensing, PID control, and PWM-driven actuation — with real-time SWV ITM telemetry.**
+> **Closed-loop thermal management using analog temperature sensing, PID control, and PWM-driven actuation — with breakpoint/register-level debugging and real-time SWV ITM telemetry.**
 
 </div>
 
@@ -30,8 +26,11 @@ Closed-loop thermal management system built on the **STM32F407G-DISC1** Discover
 > M.Sc. Embedded Systems, TU Chemnitz — May 2026
 > Author: Rushikesh Lakadkar
 
-![Board](images/board.jpg)
-![Breadboard prototype](images/breadboard.jpg)
+<p align="center">
+  <img src="images/board.jpg" width="420" alt="STM32F407G-DISC1 Discovery Board with active connections"/>
+  &nbsp;&nbsp;
+  <img src="images/system-operation.jpg" width="220" alt="Assembled prototype during operation"/>
+</p>
 
 ---
 
@@ -40,12 +39,16 @@ Closed-loop thermal management system built on the **STM32F407G-DISC1** Discover
 - [Overview](#overview)
 - [Hardware](#hardware)
 - [Pin Assignment](#pin-assignment)
+- [Complete System Schematic](#complete-system-schematic)
 - [Wiring Diagram](#wiring-diagram)
 - [Peripheral Configuration](#peripheral-configuration)
 - [Control Logic](#control-logic)
+- [PID Control Algorithm](#pid-control-algorithm)
 - [Temperature Zones & LED Behavior](#temperature-zones--led-behavior)
+- [Debugging Methodology & Verification](#debugging-methodology--verification)
 - [Telemetry / UART Output](#telemetry--uart-output)
 - [Demo Video](#demo-video)
+- [Firmware](#firmware)
 - [Repository Structure](#repository-structure)
 - [Test Results](#test-results)
 - [Challenges & Solutions](#challenges--solutions)
@@ -66,7 +69,9 @@ The system reads ambient temperature continuously via the LM35 sensor, processes
 - Drive a DC fan via MOSFET + PWM (TIM2 CH1)
 - Indicate thermal zones (low / medium / high) via GPIO LEDs
 - Stream live telemetry (temp, ADC, voltage, error, PWM) at 115200 baud
-- Use STM32CubeIDE's SWV ITM Console for tracing
+- Use STM32CubeIDE's SWV ITM Console for tracing, backed by breakpoint and register-level debugging
+
+**Scope:** limited to ambient air temperature sensing and fan speed regulation on a breadboard prototype. Not designed for liquid cooling or high-power industrial loads, but the control architecture is directly transferable to such scenarios.
 
 ---
 
@@ -74,12 +79,22 @@ The system reads ambient temperature continuously via the LM35 sensor, processes
 
 | Component | Spec |
 |---|---|
-| MCU | STM32F407VGT6 — ARM Cortex-M4, 168 MHz max (configured at 84 MHz), 1 MB Flash, 192 KB SRAM |
-| Temperature Sensor | LM35DZ — 10 mV/°C, 0–100°C range, ±0.5°C accuracy |
+| MCU | STM32F407VGT6 — ARM Cortex-M4, 168 MHz max (configured at 84 MHz), 1 MB Flash, 192 KB SRAM, LQFP-100 |
+| Temperature Sensor | LM35DZ — 10 mV/°C, 0–100°C range, ±0.5°C accuracy, TO-92 |
 | Fan | 5V DC brushless fan, MOSFET-switched |
-| Fan Driver | N-channel MOSFET + 100 Ω gate resistor + 1N4007 flyback diode |
-| LEDs | 3× through-hole LEDs (Green/Yellow/Red) + 220 Ω resistors |
+| Fan Driver | N-channel MOSFET + 100 Ω gate resistor + flyback diode (1N4007 / SS14) |
+| LEDs | 3× through-hole LEDs (Green/Yellow/Red) + 220–330 Ω resistors |
 | IDE | STM32CubeIDE (HAL drivers, CubeMX peripheral config) |
+
+<p align="center">
+  <img src="images/board.jpg" width="380" alt="STM32F407G-DISC1 Discovery Board"/><br/>
+  <em>Figure 1 — STM32F407G-DISC1 Discovery Board with active connections</em>
+</p>
+
+<p align="center">
+  <img src="images/breadboard.jpg" width="380" alt="Breadboard prototype with LEDs, MOSFET driver, and fan"/><br/>
+  <em>Figure 2 — Breadboard prototype showing LED indicators, MOSFET driver circuit, and fan</em>
+</p>
 
 ## Pin Assignment
 
@@ -96,19 +111,55 @@ The system reads ambient temperature continuously via the LM35 sensor, processes
 | 3.3V | Supply | LM35 Vs |
 | 5V | Supply | Fan positive terminal |
 
+STM32CubeIDE's Pinout view confirms this exact assignment on the STM32F407VGTx (LQFP100) package — PD12–PD14 labelled `GPIO_Output`, PA0 as `ADC1_IN0`, PA2/PA3 as `USART2_TX`/`USART2_RX`, and PA5 as `TIM2_CH1`:
+
+<p align="center">
+  <img src="images/cubeide-pinout-view.png" width="600" alt="STM32CubeIDE Pinout view"/><br/>
+  <em>Figure 3 — STM32CubeIDE Pinout view of the STM32F407VGTx (LQFP100)</em>
+</p>
+
+## Complete System Schematic
+
+The diagram below consolidates every subsystem — the STM32F407G-DISC1 (U1), the LM35DZ sensor (U2), the MOSFET fan driver stage (U3), the LED indicator bank, the J1 Micro-USB connector, and the ST-LINK/UART breakout — into a single schematic.
+
+<p align="center">
+  <img src="images/schematic.png" width="700" alt="Complete system schematic"/><br/>
+  <em>Figure 4 — Complete schematic of the STM32F407G-DISC1 temperature-controlled fan system</em>
+</p>
+
+**Power distribution:** the 3.3V rail from the Discovery board's on-board regulator supplies U1's logic and the LM35 (decoupled with a 10 µF bulk capacitor + 100 nF ceramic capacitor). The fan circuit (U3) runs from a separate +5V rail sourced from the USB bus via J1, keeping the fan's switching current off the 3.3V analog rail that feeds the LM35 — this is what keeps the ADC reading clean while the MOSFET switches at 1 kHz.
+
+**Signal routing:** PA0 connects to the LM35's Vout with a 100 nF filter capacitor (C1) at the sensor node. PA5 (PWM) runs from TIM2_CH1 to the MOSFET gate (Q1) through the 100 Ω gate resistor (R1). PA2/PA3 (UART) branch to both the ST-LINK/UART breakout and the LED indicator bank's shared signal node.
+
+**LED & fan stages:** PD12/13/14 each drive one LED through its own 330 Ω resistor (R2/R3/R4) to ground. The flyback diode D1 (SS14) sits across FAN1, clamping the inductive spike when Q1 (AO3400A N-channel MOSFET) switches off.
+
+<p align="center">
+  <img src="images/system-operation.jpg" width="320" alt="Assembled prototype during operation"/><br/>
+  <em>Figure 5 — Assembled prototype during operation: breadboard wiring, LED indicators, and cooling fan</em>
+</p>
+
 ## Wiring Diagram
 
-![Wiring diagram](images/wiring-diagram.jpg)
+![Wiring diagram](images/schematic.png)
+
+*(see [Complete System Schematic](#complete-system-schematic) above for the full breakdown by subsystem)*
 
 ## Peripheral Configuration
 
 | Peripheral | Setting |
 |---|---|
-| System Clock | HSI 16 MHz → PLL → 84 MHz SYSCLK |
-| ADC1 | 12-bit, single channel, software trigger, 3-cycle sampling |
-| TIM2 (PWM) | 1 kHz, 1000-step resolution (ARR = 999, Prescaler = 83) |
-| USART2 | 115200 baud, 8N1 |
+| System Clock | HSI 16 MHz → PLL (M=16, N=336, P=DIV4) → 84 MHz SYSCLK, AHB /1, APB1 /2 (42 MHz, TIM2 clk = 84 MHz), APB2 /1 |
+| ADC1 | 12-bit, single channel (PA0 / ADC_CHANNEL_0), software trigger, 3-cycle sampling, PCLK2/4 = 21 MHz ADC clock |
+| TIM2 (PWM) | 1 kHz, 1000-step resolution (ARR = 999, Prescaler = 83), PWM Mode 1, Active High, Channel 1 (PA5) |
+| USART2 | 115200 baud, 8N1, TX/RX, no flow control, 16x oversampling |
 | GPIO (PD12–14) | Push-pull output, no pull-up/down, low speed |
+
+STM32CubeIDE's Clock Configuration view confirms the full derivation path — HSI (16 MHz, blue) → Main PLL → 84 MHz SYSCLK → AHB Prescaler (/1) → 84 MHz HCLK, fanning out to APB1 (/2 → 42 MHz PCLK1, ×2 timer multiplier restores 84 MHz for TIM2) and APB2 (/1 → 84 MHz):
+
+<p align="center">
+  <img src="images/cubeide-clock-config.png" width="700" alt="STM32CubeIDE Clock Configuration view"/><br/>
+  <em>Figure 6 — STM32CubeIDE Clock Configuration view: HSI → PLL → 84 MHz SYSCLK derivation and APB1/APB2 prescaler outputs</em>
+</p>
 
 ## Control Logic
 
@@ -118,7 +169,7 @@ Main loop runs every **1 second**:
 2. Convert ADC → voltage (`V = ADC × 3.3 / 4095`) → temperature (`T = V × 100`, since LM35 = 10 mV/°C)
 3. Compute PID terms (P, I, D) against a 25.0°C setpoint
 4. Clamp PID output to PWM range [0, 1000]
-5. Override PID output with a discrete zone-based PWM value (see below)
+5. Override PID output with a discrete zone-based PWM value (see [Temperature Zones](#temperature-zones--led-behavior))
 6. Update TIM2 compare register → sets fan PWM duty cycle
 7. Reset all LEDs, toggle the active zone LED
 8. If temperature changed by >0.1°C, print telemetry via SWV ITM
@@ -135,9 +186,27 @@ if (pwm_output < 0) pwm_output = 0;
 prev_error = error;
 ```
 
-**PID gains:** `Kp = 5.0`, `Ki = 0.1`, `Kd = 1.0`, Setpoint = 25.0°C
+## PID Control Algorithm
 
-> Note: in the current prototype the PID output is computed and clamped each cycle, but fan speed is actually driven by the discrete zone override below (deterministic behavior for demo purposes). Pure PID closed-loop control is planned as future work.
+A PID controller continuously calculates an error value as the difference between the desired setpoint and the measured temperature, then applies a correction based on three terms:
+
+- **Proportional (P):** correction proportional to current error. Large Kp = fast response but possible overshoot.
+- **Integral (I):** correction based on accumulated error over time. Eliminates steady-state offset but can cause windup if unmanaged.
+- **Derivative (D):** correction based on rate of change of error. Damps overshoot, improves settling time.
+
+```
+output(n) = Kp × e(n) + Ki × SUM[e(n)] + Kd × [e(n) − e(n−1)]
+```
+
+| Parameter | Symbol | Value | Rationale |
+|---|---|---|---|
+| Setpoint | SP | 25.0 °C | Target ambient temperature for fan activation |
+| Proportional Gain | Kp | 5.0 | Moderate gain; 1 °C error → 5 PWM units correction |
+| Integral Gain | Ki | 0.1 | Slow integral wind-up, avoids oscillation |
+| Derivative Gain | Kd | 1.0 | Moderate damping to reduce overshoot |
+| Max PWM | pwm_max | 1000 | Maps to 100% duty cycle (TIM2 Period = 1000) |
+
+> **PID vs. discrete zone override:** in the current prototype the PID output is computed and clamped every cycle, but fan speed is actually driven by the discrete zone override below (deterministic behavior for demo purposes). The PID's integral state still evolves throughout operation. Pure PID closed-loop control — using the PID output directly without the zone override — is planned as future work.
 
 ## Temperature Zones & LED Behavior
 
@@ -147,9 +216,70 @@ prev_error = error;
 | Medium | 27°C ≤ T ≤ 28°C | 600 | 60% | 🟡 Yellow |
 | High | T > 28°C | 900 | 90% | 🔴 Red |
 
-The active LED **toggles** (blinks at 0.5 Hz) rather than staying static, providing a visible "alive" indication. The other two LEDs are explicitly held low.
+The active LED **toggles** (blinks at 0.5 Hz) rather than staying static, providing a visible "alive" indication. The other two LEDs are explicitly held low before the toggle.
 
-> Known issue: an else-if boundary gap exists for 26–27°C (falls through to High zone). Flagged for refactor with explicit hysteresis bands.
+```c
+HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14, GPIO_PIN_RESET);
+if (temperature < 26) {
+  pwm_output = pwm_low; // 300
+  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12); // Green
+} else if (temperature >= 27 && temperature <= 28) {
+  pwm_output = pwm_mid; // 600
+  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13); // Yellow
+} else {
+  pwm_output = pwm_high; // 900
+  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14); // Red
+}
+```
+
+> ⚠️ **Known issue:** an else-if boundary gap exists for 26–27°C (falls through to the High zone). Flagged for refactor with explicit hysteresis bands.
+
+## Debugging Methodology & Verification
+
+Beyond SWV ITM telemetry, development relied on STM32CubeIDE's integrated debugger (GDB over ST-LINK/V2 SWD) to verify peripheral behavior at the register level and catch logic errors before they surfaced as hardware faults.
+
+**Breakpoint strategy** — four key points in `main.c`:
+- After `HAL_ADC_GetValue()` — verify raw `adc_val`
+- After the LM35 voltage→temperature conversion — confirm scaling
+- Inside the PID block — inspect Kp/Ki/Kd contributions and clamped output
+- Inside each zone branch — confirm correct branch and LED toggle
+
+A conditional breakpoint (`temperature > 28.0f`) was used to catch the High-zone transition without manually heating the sensor on every run.
+
+**Live variable inspection** (Variables view + Live Expressions):
+
+| Variable | Typical Observed Value | What It Confirmed |
+|---|---|---|
+| `adc_val` | 2980 – 3010 | Stable 12-bit ADC code at room temperature |
+| `voltage` | 2.40 – 2.42 | Voltage scaling formula matched expected LM35 output |
+| `temperature` | 24.0 – 24.2 | LM35 ×100 scaling correct; agreed with reference thermometer |
+| `error` / `integral` / `derivative` | varies | PID terms updating each iteration without runaway growth |
+| `pwm_output` | 300 / 600 / 900 | Zone override correctly replacing the raw PID output |
+
+**Peripheral register inspection** (SFR view, from the STM32F407VGT6 SVD file):
+
+| Peripheral | Register | Field(s) Checked | Expected / Observed |
+|---|---|---|---|
+| ADC1 | SR | EOC | Set to 1 right after `HAL_ADC_PollForConversion()` returned |
+| ADC1 | DR | DATA[11:0] | Matched `HAL_ADC_GetValue()` (e.g. 0xBB4 ≈ 2996) |
+| ADC1 | CR2 | ADON, CONT | ADON = 1, CONT = 0 (single-conversion mode) |
+| TIM2 | CCR1 | Capture/Compare 1 | Matched last value written via `__HAL_TIM_SET_COMPARE()` |
+| TIM2 | ARR | Auto-reload value | 999, confirming the 1 kHz PWM period |
+| TIM2 | CR1 | CEN | 1, confirming the timer was running |
+| GPIOD | ODR | ODR12/13/14 | Only one bit high at a time, toggling at ~1 Hz |
+| GPIOD | MODER | MODE12/13/14 | 01 (general-purpose output), confirming push-pull mode |
+
+**SWV ITM console verification:** each printed telemetry line was cross-checked against the Variables view at the same breakpoint, and the 0.1 °C change-detection threshold was verified by watching the console during a stable-temperature period (no spurious lines).
+
+**Oscilloscope cross-check:** TIM2_CH1 (PA5) was probed while halting on a breakpoint right after each zone's `__HAL_TIM_SET_COMPARE()` call:
+
+| Zone | CCR1 (Register View) | Oscilloscope High Time | Period | Result |
+|---|---|---|---|---|
+| Low | 300 | ~300 µs | 1.00 ms (1 kHz) | ✅ Match |
+| Medium | 600 | ~600 µs | 1.00 ms (1 kHz) | ✅ Match |
+| High | 900 | ~900 µs | 1.00 ms (1 kHz) | ✅ Match |
+
+This combination of breakpoints, register inspection, and ITM telemetry verification — cross-checked against the oscilloscope — directly caught three of the six issues in [Challenges & Solutions](#challenges--solutions) (missing `_write()` retarget, fast LED blinking, integral windup) before they were misattributed to a hardware fault.
 
 ## Telemetry / UART Output
 
@@ -171,9 +301,36 @@ To view: enable **Serial Wire Viewer** in Debug Configurations (Core Clock = 84 
 
 ## Demo Video
 
-📹 [Sensor data / fan response demo](videos/demo.mp4)
+📹 [System operation demo](videos/demo.mp4)
 
-*(heat-gun test showing LED zone transitions, audible fan speed change, and live SWV ITM telemetry)*
+*(breadboard setup running live — fan spinning, LED zone indicators lit)*
+
+## Firmware
+
+📄 [`firmware/main.c`](firmware/main.c) — full application source: peripheral initialization (clock, ADC1, TIM2 PWM, USART2, GPIO), the 1-second control loop, PID computation, zone-override logic, and the SWV ITM `printf` retarget.
+
+> Reconstructed from the peripheral configuration (Section 5) and code listings (Sections 6–8, 10) in the [full report](#full-report). The `MX_*_Init()` functions follow the documented CubeMX settings; re-export from the project's `.ioc` file in STM32CubeIDE for a byte-exact, build-verified copy.
+
+```c
+// Core control loop (runs every 1 second) — see firmware/main.c for the complete file
+HAL_ADC_Start(&hadc1);
+HAL_Delay(5);
+HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+adc_val = HAL_ADC_GetValue(&hadc1);
+voltage = (adc_val * 3.3f) / 4095.0f;
+temperature = voltage * 100.0f;
+
+float error = setpoint - temperature;
+integral += error;
+float derivative = error - prev_error;
+pwm_output = Kp * error + Ki * integral + Kd * derivative;
+if (pwm_output > pwm_max) pwm_output = pwm_max;
+if (pwm_output < 0) pwm_output = 0;
+prev_error = error;
+
+__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, (uint32_t)pwm_output);
+HAL_Delay(1000);
+```
 
 ## Repository Structure
 
@@ -188,12 +345,17 @@ To view: enable **Serial Wire Viewer** in Debug Configurations (Core Clock = 84 
 │       └── stm32f4xx_it.c           # Interrupt service routines
 ├── Drivers/
 │   └── STM32F4xx_HAL_Driver/        # ST HAL library
+├── firmware/
+│   └── main.c                      # Standalone copy of the application source (see Firmware section)
 ├── images/
 │   ├── board.jpg                   # Discovery board photo
 │   ├── breadboard.jpg              # Breadboard prototype photo
-│   └── wiring-diagram.jpg          # Circuit/wiring diagram
+│   ├── system-operation.jpg        # Assembled prototype running (LEDs + fan)
+│   ├── schematic.png               # Complete circuit schematic
+│   ├── cubeide-clock-config.png    # STM32CubeIDE Clock Configuration screenshot
+│   └── cubeide-pinout-view.png     # STM32CubeIDE Pinout view screenshot
 ├── videos/
-│   └── demo.mp4                    # Sensor/fan response demo
+│   └── demo.mp4                    # System operation demo
 ├── docs/
 │   └── STM32_Temperature_Fan_Control_Report.pdf   # Full project report
 └── README.md
@@ -210,7 +372,7 @@ To view: enable **Serial Wire Viewer** in Debug Configurations (Core Clock = 84 
 | Fan Speed | Proportional | — | — | Varies | Audibly varies | ✅ PASS |
 
 - **ADC accuracy:** firmware temperature (24.0–24.1°C) matched a reference thermometer (24.0°C) within ±0.2°C
-- **PWM verification:** oscilloscope confirmed 1 kHz signal, ~300 µs high period at 30% duty cycle
+- **PWM verification:** oscilloscope confirmed 1 kHz signal, ~300 µs high period at 30% duty cycle, cross-checked against the TIM2_CCR1 register value (see [Debugging Methodology](#debugging-methodology--verification))
 
 ## Challenges & Solutions
 
@@ -247,7 +409,7 @@ To view: enable **Serial Wire Viewer** in Debug Configurations (Core Clock = 84 
 
 ## Full Report
 
-📄 [STM32_Temperature_Fan_Control_Report.pdf](docs/STM32_Temperature_Fan_Control_Report.pdf) — full write-up including system overview, PID derivation, peripheral configuration details, and complete test methodology.
+📄 [STM32_Temperature_Fan_Control_Report.pdf](docs/STM32_Temperature_Fan_Control_Report.pdf) — full write-up including system overview, PID derivation, peripheral configuration details, debugging methodology (breakpoints, register inspection, oscilloscope cross-checks), and complete test methodology.
 
 ---
 
