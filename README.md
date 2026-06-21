@@ -8,12 +8,23 @@ Closed-loop thermal management system built on the **STM32F407G-DISC1** Discover
 ![Board](images/board.jpg)
 ![Breadboard prototype](images/breadboard.jpg)
 
-**Skills demonstrated:** Embedded Software Development · Sensor Integration · HAL Driver Development · Embedded C
+---
+
+## 🛠️ Skills & Technologies
+
+- **Embedded Software Development** — real-time control loop design, peripheral-driven application architecture
+- **Sensor Integration** — analog signal conditioning and ADC-based temperature acquisition (LM35)
+- **HAL Driver Development** — STM32 HAL/CubeMX peripheral configuration (ADC, TIM/PWM, GPIO, USART)
+- **Embedded C** — closed-loop PID algorithm implementation, anti-windup clamping, retargeted I/O (`_write`/ITM)
+- **Communication Protocols** — UART/USART, SWV/ITM, ADC, PWM, GPIO, with HAL-level support for SPI, I2C, and CAN 2.0B
+- **Hardware-Software Co-Design** — breadboard prototyping, oscilloscope/logic-analyzer validation, MOSFET fan driver circuit design
+- **Tooling** — STM32CubeIDE, STM32CubeMX, SWV ITM Console, HAL driver library
 
 ---
 
 ## 📋 Table of Contents
 
+- [Skills & Technologies](#️-skills--technologies)
 - [Overview](#overview)
 - [Hardware](#hardware)
 - [Pin Assignment](#pin-assignment)
