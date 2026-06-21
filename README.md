@@ -83,7 +83,7 @@ The system reads ambient temperature continuously via the LM35 sensor, processes
 | IDE | STM32CubeIDE (HAL drivers, CubeMX peripheral config) |
 
 
-[![STM32F407G-DISC1 Discovery Board](images/stm32f407_board.jpg)](images/stm32f407_board.jpg)
+[![STM32F407G-DISC1 Discovery Board](images/STM32_with_Active_Connections.jpeg)
 
 **Figure 1 — STM32F407G-DISC1 Discovery Board with active connections**
 
