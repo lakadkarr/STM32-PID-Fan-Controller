@@ -281,7 +281,7 @@ To view: enable **Serial Wire Viewer** in Debug Configurations (Core Clock = 84 
 
 *(breadboard setup running live — fan spinning, LED zone indicators lit)*
 
-📹 [Live data, Tempreture value, PWM, Fan Speed](Live_demo_Video.mp4)
+📹 [Live data, Tempreture value, PWM, Fan Speed](Sensor_PWM_Live_data.mp4)
 
 *(Live data on ITM console, Sensor data(Tempreture), PWM/Fan speed, Live graph)*
 
