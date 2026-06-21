@@ -113,10 +113,7 @@ STM32CubeIDE's Pinout view confirms this exact assignment on the STM32F407VGTx (
 
 The diagram below consolidates every subsystem — the STM32F407G-DISC1 (U1), the LM35DZ sensor (U2), the MOSFET fan driver stage (U3), the LED indicator bank, the J1 Micro-USB connector, and the ST-LINK/UART breakout — into a single schematic.
 
-<p align="center">
-  <img src="images/schematic.png" width="700" alt="Complete system schematic"/><br/>
-  <em>Figure 4 — Complete schematic of the STM32F407G-DISC1 temperature-controlled fan system</em>
-</p>
+> 📁 [`/Schematic_Wiring_/`](./Schematic_STM32_LM35_FAN_Project.png/)
 
 **Power distribution:** the 3.3V rail from the Discovery board's on-board regulator supplies U1's logic and the LM35 (decoupled with a 10 µF bulk capacitor + 100 nF ceramic capacitor). The fan circuit (U3) runs from a separate +5V rail sourced from the USB bus via J1, keeping the fan's switching current off the 3.3V analog rail that feeds the LM35 — this is what keeps the ADC reading clean while the MOSFET switches at 1 kHz.
 
