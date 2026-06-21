@@ -82,15 +82,17 @@ The system reads ambient temperature continuously via the LM35 sensor, processes
 | LEDs | 3× through-hole LEDs (Green/Yellow/Red) + 220–330 Ω resistors |
 | IDE | STM32CubeIDE (HAL drivers, CubeMX peripheral config) |
 
-<p align="center">
-  <img src="images/board.jpg" width="380" alt="STM32F407G-DISC1 Discovery Board"/><br/>
-  <em>Figure 1 — STM32F407G-DISC1 Discovery Board with active connections</em>
-</p>
 
-<p align="center">
-  <img src="images/breadboard.jpg" width="380" alt="Breadboard prototype with LEDs, MOSFET driver, and fan"/><br/>
-  <em>Figure 2 — Breadboard prototype showing LED indicators, MOSFET driver circuit, and fan</em>
-</p>
+[![STM32F407G-DISC1 Discovery Board](images/stm32f407_board.jpg)](images/stm32f407_board.jpg)
+
+**Figure 1 — STM32F407G-DISC1 Discovery Board with active connections**
+
+
+[![Breadboard Prototype](images/breadboard_prototype.jpg)](images/breadboard_prototype.jpg)
+
+**Figure 2 — Breadboard prototype showing LED indicators, MOSFET driver circuit, and fan**
+
+
 
 ## Pin Assignment
 
