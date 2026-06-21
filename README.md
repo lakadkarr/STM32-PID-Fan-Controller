@@ -287,7 +287,7 @@ To view: enable **Serial Wire Viewer** in Debug Configurations (Core Clock = 84 
 
 ## Firmware
 
-📄 [`firmware/main.c`](firmware/main.c) — full application source: peripheral initialization (clock, ADC1, TIM2 PWM, USART2, GPIO), the 1-second control loop, PID computation, zone-override logic, and the SWV ITM `printf` retarget.
+📄 [`firmware/main.c`](Firmaware_main.c) — full application source: peripheral initialization (clock, ADC1, TIM2 PWM, USART2, GPIO), the 1-second control loop, PID computation, zone-override logic, and the SWV ITM `printf` retarget.
 
 > Reconstructed from the peripheral configuration (Section 5) and code listings (Sections 6–8, 10) in the [full report](#full-report). The `MX_*_Init()` functions follow the documented CubeMX settings; re-export from the project's `.ioc` file in STM32CubeIDE for a byte-exact, build-verified copy.
 
