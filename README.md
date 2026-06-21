@@ -277,7 +277,7 @@ To view: enable **Serial Wire Viewer** in Debug Configurations (Core Clock = 84 
 
 ## Demo Video
 
-📹 [System operation demo](videos/demo.mp4)
+📹 [System operation demo](Live_demo_Video.mp4)
 
 *(breadboard setup running live — fan spinning, LED zone indicators lit)*
 
