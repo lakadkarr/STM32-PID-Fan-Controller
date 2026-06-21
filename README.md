@@ -1,4 +1,29 @@
-# STM32F407VGT6 Temperature-Controlled Fan Speed Regulation
+# 🌡️ STM32F407VGT6 TEMPERATURE-CONTROLLED FAN SPEED REGULATION
+
+<div align="center">
+
+![TU Chemnitz](https://img.shields.io/badge/TU%20Chemnitz-M.Sc.%20Embedded%20Systems-009640?style=for-the-badge)
+![Embedded Systems](https://img.shields.io/badge/Project-Embedded%20Systems-blue?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-In%20Progress-yellow?style=for-the-badge)
+![License](https://img.shields.io/badge/License-Academic-orange?style=for-the-badge)
+
+## 🛠️ Technical Skills
+
+<div align="center">
+
+![Microcontroller](https://img.shields.io/badge/Microcontroller-STM32F407VGT6%20%7C%20Cortex--M4-black?style=for-the-badge)
+![Embedded C](https://img.shields.io/badge/Embedded%20C-C%2FC%2B%2B-blue?style=for-the-badge)
+![Sensor Integration](https://img.shields.io/badge/Sensor%20Integration-LM35%20Temperature%20Sensor-green?style=for-the-badge)
+![HAL Driver Development](https://img.shields.io/badge/HAL%20Driver%20Development-STM32CubeIDE%20%7C%20CubeMX-orange?style=for-the-badge)
+![Communication Protocols](https://img.shields.io/badge/Communication-UART%20%7C%20SPI%20%7C%20I2C%20%7C%20CAN-purple?style=for-the-badge)
+![Control Systems](https://img.shields.io/badge/Control%20Systems-PID%20%7C%20PWM-red?style=for-the-badge)
+![Debugging](https://img.shields.io/badge/Debugging-SWV%20ITM%20%7C%20Oscilloscope-yellow?style=for-the-badge)
+
+</div>
+
+> **Closed-loop thermal management using analog temperature sensing, PID control, and PWM-driven actuation — with real-time SWV ITM telemetry.**
+
+</div>
 
 Closed-loop thermal management system built on the **STM32F407G-DISC1** Discovery Board (STM32F407VGT6, ARM Cortex-M4 @ 84 MHz), using an **LM35** analog temperature sensor, **PWM-driven MOSFET fan control**, **PID control logic**, and **GPIO LED thermal-zone indication**, with telemetry streamed over **SWV ITM / UART**.
 
@@ -10,21 +35,8 @@ Closed-loop thermal management system built on the **STM32F407G-DISC1** Discover
 
 ---
 
-## 🛠️ Skills & Technologies
-
-- **Embedded Software Development** — real-time control loop design, peripheral-driven application architecture
-- **Sensor Integration** — analog signal conditioning and ADC-based temperature acquisition (LM35)
-- **HAL Driver Development** — STM32 HAL/CubeMX peripheral configuration (ADC, TIM/PWM, GPIO, USART)
-- **Embedded C** — closed-loop PID algorithm implementation, anti-windup clamping, retargeted I/O (`_write`/ITM)
-- **Communication Protocols** — UART/USART, SWV/ITM, ADC, PWM, GPIO, with HAL-level support for SPI, I2C, and CAN 2.0B
-- **Hardware-Software Co-Design** — breadboard prototyping, oscilloscope/logic-analyzer validation, MOSFET fan driver circuit design
-- **Tooling** — STM32CubeIDE, STM32CubeMX, SWV ITM Console, HAL driver library
-
----
-
 ## 📋 Table of Contents
 
-- [Skills & Technologies](#️-skills--technologies)
 - [Overview](#overview)
 - [Hardware](#hardware)
 - [Pin Assignment](#pin-assignment)
@@ -240,3 +252,10 @@ To view: enable **Serial Wire Viewer** in Debug Configurations (Core Clock = 84 
 ---
 
 *Built with STM32CubeIDE • HAL drivers • STM32F407G-DISC1*
+
+<div align="center">
+
+**Made with ⚙️ at Technische Universität Chemnitz**
+*M.Sc. Embedded Systems*
+
+</div>
