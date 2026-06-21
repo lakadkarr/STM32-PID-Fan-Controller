@@ -85,7 +85,7 @@ The system reads ambient temperature continuously via the LM35 sensor, processes
 
 > 📁 [`/STM32 Active board/`](./STM32_with_Active_Connections.jpeg/)
 
-> 📁 [`/Complete Breadboard Prototype/`](./images/)
+> 📁 [`/Complete Breadboard Prototype/`](./Breadboard_Prototype.jpeg/)
 
 
 
