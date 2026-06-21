@@ -108,7 +108,7 @@ STM32CubeIDE's Pinout view confirms this exact assignment on the STM32F407VGTx (
 
 > 📁 [`/STM32CubeMX Pinout_/`](./STM32CubeIDE_Pinout_View.png/)
 
-## Complete System Schematic
+## Complete System Schematic/Wiring diagram
 
 The diagram below consolidates every subsystem — the STM32F407G-DISC1 (U1), the LM35DZ sensor (U2), the MOSFET fan driver stage (U3), the LED indicator bank, the J1 Micro-USB connector, and the ST-LINK/UART breakout — into a single schematic.
 
@@ -135,10 +135,7 @@ The diagram below consolidates every subsystem — the STM32F407G-DISC1 (U1), th
 
 STM32CubeIDE's Clock Configuration view confirms the full derivation path — HSI (16 MHz, blue) → Main PLL → 84 MHz SYSCLK → AHB Prescaler (/1) → 84 MHz HCLK, fanning out to APB1 (/2 → 42 MHz PCLK1, ×2 timer multiplier restores 84 MHz for TIM2) and APB2 (/1 → 84 MHz):
 
-<p align="center">
-  <img src="images/cubeide-clock-config.png" width="700" alt="STM32CubeIDE Clock Configuration view"/><br/>
-  <em>Figure 6 — STM32CubeIDE Clock Configuration view: HSI → PLL → 84 MHz SYSCLK derivation and APB1/APB2 prescaler outputs</em>
-</p>
+> 📁 [`/Clock Configuration_/`](./STM32_ClockConfiguration.png/)
 
 ## Control Logic
 
