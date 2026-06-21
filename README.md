@@ -281,6 +281,10 @@ To view: enable **Serial Wire Viewer** in Debug Configurations (Core Clock = 84 
 
 *(breadboard setup running live — fan spinning, LED zone indicators lit)*
 
+📹 [Live data, Tempreture value, PWM, Fan Speed](Live_demo_Video.mp4)
+
+*(Live data on ITM console, Sensor data(Tempreture), PWM/Fan speed, Live graph)*
+
 ## Firmware
 
 📄 [`firmware/main.c`](firmware/main.c) — full application source: peripheral initialization (clock, ADC1, TIM2 PWM, USART2, GPIO), the 1-second control loop, PID computation, zone-override logic, and the SWV ITM `printf` retarget.
