@@ -107,10 +107,7 @@ The system reads ambient temperature continuously via the LM35 sensor, processes
 
 STM32CubeIDE's Pinout view confirms this exact assignment on the STM32F407VGTx (LQFP100) package — PD12–PD14 labelled `GPIO_Output`, PA0 as `ADC1_IN0`, PA2/PA3 as `USART2_TX`/`USART2_RX`, and PA5 as `TIM2_CH1`:
 
-<p align="center">
-  <img src="images/cubeide-pinout-view.png" width="600" alt="STM32CubeIDE Pinout view"/><br/>
-  <em>Figure 3 — STM32CubeIDE Pinout view of the STM32F407VGTx (LQFP100)</em>
-</p>
+> 📁 [`/STM32CubeMX Pinout_/`](./STM32CubeIDE_Pinout_View.png/)
 
 ## Complete System Schematic
 
