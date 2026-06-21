@@ -389,7 +389,7 @@ HAL_Delay(1000);
 
 ## Full Report
 
-📄 [STM32_Temperature_Fan_Control_Report.pdf](docs/STM32_Temperature_Fan_Control_Report.pdf) — full write-up including system overview, PID derivation, peripheral configuration details, debugging methodology (breakpoints, register inspection, oscilloscope cross-checks), and complete test methodology.
+📄 [STM32_Temperature_Fan_Control_Report.pdf](Report_STM32_Temperature_Fan_Control.pdf) — full write-up including system overview, PID derivation, peripheral configuration details, debugging methodology (breakpoints, register inspection, oscilloscope cross-checks), and complete test methodology.
 
 ---
 
